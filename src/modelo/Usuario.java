@@ -99,10 +99,8 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario \nId = " + id + "\nNombre = " + nombres + "\nApellidoPaterno = " + apellidoPaterno
+        return "\nId = " + id + "\nNombre = " + nombres + "\nApellidoPaterno = " + apellidoPaterno
                 + "\nApellidoMaterno = " + apellidoMaterno + "\nFechaNacimiento = " + fechaNacimiento + "\nGenero = " + genero
                 + "\nDireccion = " + direccion + "\nTelefono = " + telefono + "\nCorreoElectronico=" + correoElectronico;
     }
-
-    
 }

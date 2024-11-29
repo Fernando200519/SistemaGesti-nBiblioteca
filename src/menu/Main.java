@@ -1,18 +1,23 @@
 package menu;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.Libro;
 import modelo.Usuario;
+import servicio.GestorUsuarios;
 
 import java.time.LocalDate;
 
 public class Main {
+
+    static Scanner entrada = new Scanner(System.in);
+    static GestorUsuarios arrayUsuarios = new GestorUsuarios();
     public static void main(String[] args){
+        
         System.out.println("\nBIENVENIDO AL SISTEMA DE GESTION DE LA BIBLIOTECA");
         int opcion;
-        Scanner entrada = new Scanner(System.in);
-        int idUsuario = 0;
+        int idUsuario = 1;
 
         Libro libro1 = new Libro(1, "Cien años de soledad", "Gabriel Garcia Marquez", "Editorial Sudamericana", "1967-05-30");
         Libro libro2 = new Libro(2, "1984", "George Orwell", "Secker & Warcurg", "1949-06-08");
@@ -32,31 +37,17 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                String nombre, apellidoPaterno, apellidoMaterno, genero, direccion, telefono, correoElectronico;
-                LocalDate fechaNacimiento;
-                entrada.nextLine();
-                System.out.print("\nNombre: ");
-                nombre = entrada.nextLine();
-                System.out.print("Apellido Paterno: ");
-                apellidoPaterno = entrada.nextLine();
-                System.out.print("Apellido Materno: ");
-                apellidoMaterno = entrada.nextLine();
-                System.out.print("Fecha de nacimiento(yyyy-mm-dd): ");
-                String input = entrada.nextLine();
-                fechaNacimiento = LocalDate.parse(input);
-                System.out.print("Genero: ");
-                genero = entrada.nextLine();
-                System.out.print("Direccion: ");
-                direccion = entrada.nextLine();
-                System.out.print("Telefono: ");
-                telefono = entrada.nextLine();
-                System.out.print("Correo electronico: ");
-                correoElectronico = entrada.nextLine();
+                registrarUsuario(idUsuario);
                 idUsuario++;
-                Usuario usuario = new Usuario(idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, genero, direccion, telefono, correoElectronico);
-                System.out.println("\n EL USUARIO FUE CREADO EXITOSAMENTE");
                 entrada.nextLine();
+                System.out.print("Desea la lista de los usuarios resgistrados(s/n): ");
+                char band = entrada.nextLine().charAt(0);
+                if(band == 's' || band == 'S'){
+                    arrayUsuarios.mostrarUsuarios();
+                }
                 break;
+
+
 
                 case 2:
                 System.out.print("\nIngrese el título o autor del libro a buscar: ");
@@ -85,5 +76,30 @@ public class Main {
 
         entrada.close();
         
+    }
+
+    public static void registrarUsuario(int idUsuario){
+        String nombre, apellidoPaterno, apellidoMaterno, genero, direccion, telefono, correoElectronico;
+        LocalDate fechaNacimiento;
+        entrada.nextLine();
+        System.out.print("\nNombre: ");
+        nombre = entrada.nextLine();
+        System.out.print("Apellido Paterno: ");
+        apellidoPaterno = entrada.nextLine();
+        System.out.print("Apellido Materno: ");
+        apellidoMaterno = entrada.nextLine();
+        System.out.print("Fecha de nacimiento(yyyy-mm-dd): ");
+        String input = entrada.nextLine();
+        fechaNacimiento = LocalDate.parse(input);
+        System.out.print("Genero: ");
+        genero = entrada.nextLine();
+        System.out.print("Direccion: ");
+        direccion = entrada.nextLine();
+        System.out.print("Telefono: ");
+        telefono = entrada.nextLine();
+        System.out.print("Correo electronico: ");
+        correoElectronico = entrada.nextLine();
+        Usuario usuario = new Usuario(idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, genero, direccion, telefono, correoElectronico);
+        arrayUsuarios.addUsuario(usuario);
     }
 }
