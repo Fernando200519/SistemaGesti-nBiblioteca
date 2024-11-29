@@ -13,18 +13,17 @@ public class Main {
 
     static Scanner entrada = new Scanner(System.in);
     static GestorUsuarios arrayUsuarios = new GestorUsuarios();
+
+    static Libro libro1 = new Libro(1, "Cien años de soledad", "Gabriel Garcia Marquez", "Editorial Sudamericana", "1967-05-30");
+    static Libro libro2 = new Libro(2, "1984", "George Orwell", "Secker & Warcurg", "1949-06-08");
+    static Libro libro3 = new Libro(3, "El principito", "Antoine de Saint-Exupery", "Reynal & Hitchcock", "1943-04-06");
+    static Libro libro4 = new Libro(4, "Orgullo y prejuicio", "Jane Austen", "T. Egerton", "1813-01-28");
+    static Libro libro5 = new Libro(5, "Don Quijote de la Mancha", "Miguel de Cervantes", "Francisco de Robles", "1605-01-16");
     public static void main(String[] args){
         
         System.out.println("\nBIENVENIDO AL SISTEMA DE GESTION DE LA BIBLIOTECA");
         int opcion;
         int idUsuario = 1;
-
-        Libro libro1 = new Libro(1, "Cien años de soledad", "Gabriel Garcia Marquez", "Editorial Sudamericana", "1967-05-30");
-        Libro libro2 = new Libro(2, "1984", "George Orwell", "Secker & Warcurg", "1949-06-08");
-        Libro libro3 = new Libro(3, "El principito", "Antoine de Saint-Exupery", "Reynal & Hitchcock", "1943-04-06");
-        Libro libro4 = new Libro(4, "Orgullo y prejuicio", "Jane Austen", "T. Egerton", "1813-01-28");
-        Libro libro5 = new Libro(5, "Don Quijote de la Mancha", "Miguel de Cervantes", "Francisco de Robles", "1605-01-16");
-
 
         do{
             System.out.println("\n1. Registrar usuario");
@@ -36,6 +35,7 @@ public class Main {
             opcion = entrada.nextInt();
 
             switch (opcion) {
+
                 case 1:
                 registrarUsuario(idUsuario);
                 idUsuario++;
@@ -50,22 +50,23 @@ public class Main {
 
 
                 case 2:
-                System.out.print("\nIngrese el título o autor del libro a buscar: ");
-                entrada.nextLine();
-                String busqueda = entrada.nextLine();
-                boolean encontrado = false;
-
-                Libro[] libros = {libro1, libro2, libro3, libro4, libro5};
-
-
-                for (int i = 0; i < libros.length; i++) {
-                    if (busqueda.equals(libros[i].getTitulo())) {
-                    System.out.println(libros[i].toString());
-                    break;
-                    }
+                if(!buscarLibro()){
+                    System.out.println("NO SE ENCONTRO EL LIBRO");
                 }
-
                 entrada.nextLine();
+                break;
+
+
+
+                case 3:
+                prestarLibro();
+                break;
+
+                case 4:
+                break;
+
+                case 5:
+                break;
 
             }
         }while(opcion != 5);
@@ -101,5 +102,33 @@ public class Main {
         correoElectronico = entrada.nextLine();
         Usuario usuario = new Usuario(idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, genero, direccion, telefono, correoElectronico);
         arrayUsuarios.addUsuario(usuario);
+    }
+
+    public static boolean buscarLibro(){
+        System.out.print("\nIngrese el título libro a buscar: ");
+        entrada.nextLine();
+        String busqueda = entrada.nextLine();
+
+        Libro[] libros = {libro1, libro2, libro3, libro4, libro5};
+
+
+        for (int i = 0; i < libros.length; i++) {
+            if (busqueda.equals(libros[i].getTitulo())) {
+                System.out.println(libros[i].toString());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void prestarLibro(){
+        System.out.print("Digite el ID del usuario: ");
+        int identificador = entrada.nextInt();
+        if(arrayUsuarios.buscarUsuario(identificador)){
+            System.out.println("\nENTRO");
+        }else{
+            System.out.println("NO SE ENCONTRO AL USUARIO");
+        }
     }
 }

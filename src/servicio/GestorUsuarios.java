@@ -21,4 +21,14 @@ public class GestorUsuarios {
             System.out.println(usuarios.get(i).toString());
         }
     }
+
+    public boolean buscarUsuario(int id){
+        for(int i = 0; i < usuarios.size(); i++){
+            if(id == usuarios.get(i).getId()){
+                System.out.println(usuarios.get(i).toString());
+                return true;
+            }
+        }
+        return false;
+    }
 }
