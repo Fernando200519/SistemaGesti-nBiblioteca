@@ -3,14 +3,10 @@ package menu;
 import java.util.Scanner;
 
 import modelo.Libro;
-import modelo.Usuario;
+import servicio.GestorLibros;
 import servicio.GestorUsuarios;
 
-import java.time.LocalDate;
-
 public class Main {
-
-    static Scanner entrada = new Scanner(System.in);
     static GestorUsuarios arrayUsuarios = new GestorUsuarios();
 
     static Libro libro1 = new Libro(1, "Cien años de soledad", "Gabriel Garcia Marquez", "Editorial Sudamericana", "1967-05-30");
@@ -20,7 +16,10 @@ public class Main {
     static Libro libro5 = new Libro(5, "Don Quijote de la Mancha", "Miguel de Cervantes", "Francisco de Robles", "1605-01-16");
 
     static Libro[] libros = {libro1, libro2, libro3, libro4, libro5};
+    static GestorLibros arrayLibros = new GestorLibros(libros);
     public static void main(String[] args){
+
+        Scanner entrada = new Scanner(System.in);
         
         System.out.println("\nBIENVENIDO AL SISTEMA DE GESTION DE LA BIBLIOTECA");
         int opcion;
@@ -28,148 +27,43 @@ public class Main {
 
         do{
             System.out.println("\n1. Registrar usuario");
-            System.out.println("2. Mostrar los usuarios registrados");
-            System.out.println("3. Mostrar los libros");
+            System.out.println("2. Mostrar usuarios registrados");
+            System.out.println("3. Mostrar libros");
             System.out.println("4. Prestar libro");
             System.out.println("5. Devolver libro");
             System.out.println("6. Salir");
             System.out.print("\nOpcion: ");
             opcion = entrada.nextInt();
+            entrada.nextLine();
 
             switch (opcion) {
 
                 case 1:
-                registrarUsuario(idUsuario);
+                arrayUsuarios.registrarUsuario(idUsuario);
                 idUsuario++;
-                entrada.nextLine();
                 break;
 
                 case 2:
                 arrayUsuarios.mostrarUsuarios();
-                entrada.nextLine();
-                entrada.nextLine();
                 break;
 
                 case 3:
-                mostrarLibros();
-                entrada.nextLine();
+                arrayLibros.mostrarLibros();
                 break;
 
                 case 4:
-                prestarLibro();
+                arrayLibros.prestarLibro(arrayUsuarios, libros);
                 break;
 
                 case 5:
-                devolverLibro();
+                arrayLibros.devolverLibro(arrayUsuarios, libros);
                 break;
 
             }
 
-        }while(opcion != 5);
+        }while(opcion != 6);
 
         entrada.close();
         
-    }
-
-    public static void registrarUsuario(int idUsuario){
-        String nombre, apellidoPaterno, apellidoMaterno, genero, direccion, telefono, correoElectronico;
-        LocalDate fechaNacimiento;
-        entrada.nextLine();
-        System.out.print("\nNombre: ");
-        nombre = entrada.nextLine();
-        System.out.print("Apellido Paterno: ");
-        apellidoPaterno = entrada.nextLine();
-        System.out.print("Apellido Materno: ");
-        apellidoMaterno = entrada.nextLine();
-        System.out.print("Fecha de nacimiento(yyyy-mm-dd): ");
-        String input = entrada.nextLine();
-        fechaNacimiento = LocalDate.parse(input);
-        System.out.print("Genero: ");
-        genero = entrada.nextLine();
-        System.out.print("Direccion: ");
-        direccion = entrada.nextLine();
-        System.out.print("Telefono: ");
-        telefono = entrada.nextLine();
-        System.out.print("Correo electronico: ");
-        correoElectronico = entrada.nextLine();
-        Usuario usuario = new Usuario(idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, genero, direccion, telefono, correoElectronico);
-        arrayUsuarios.addUsuario(usuario);
-    }
-
-    public static void mostrarLibros(){
-        System.out.println("\nLIBROS: ");
-        for(int i = 0; i < libros.length; i++){
-            System.out.println(libros[i].toString());
-        }
-        entrada.nextLine();
-    }
-
-    public static boolean buscarLibro(){
-        System.out.print("\nIngrese el título del libro a buscar: ");
-        entrada.nextLine();
-        String busqueda = entrada.nextLine();
-
-        for (int i = 0; i < libros.length; i++) {
-            if (busqueda.equals(libros[i].getTitulo())) {
-                System.out.println(libros[i].toString());
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static int buscarLibroPrestar(){
-        System.out.print("\nIngrese el título del libro: ");
-        entrada.nextLine();
-        String busqueda = entrada.nextLine();
-
-        for (int i = 0; i < libros.length; i++) {
-            if (busqueda.equals(libros[i].getTitulo())) {
-                int identificadorLibro = libros[i].getId();
-                return identificadorLibro;
-            }
-        }
-        return 0;
-    }
-
-    public static void prestarLibro(){
-        System.out.print("Digite el ID del usuario que requiere el prestamo: ");
-        int identificadorUsuario = entrada.nextInt();
-        if(arrayUsuarios.buscarUsuario(identificadorUsuario)){
-            int identificadorLibro = buscarLibroPrestar();
-            if(!(identificadorLibro == 0) && (libros[identificadorLibro].reservaUsuario == null)){
-                libros[identificadorLibro].setReservaUsuario(arrayUsuarios.getUsuario(identificadorUsuario));
-                System.out.println("\nPRESTAMO EXITOSO");
-            }else{
-                if(!(libros[identificadorLibro].reservaUsuario == null)){
-                    System.out.println("EL LIBRO YA ESTA APARTADO");
-                }else{
-                    System.out.println("NO SE ENCONTRO EL LIBRO");
-                }
-            }
-
-        }else{
-            System.out.println("NO SE ENCONTRO AL USUARIO");
-            return;
-        }
-    }
-
-    public static void devolverLibro(){
-        System.out.print("Digite el ID del usuario que requiere delvolver el libro: ");
-        int identificadorUsuario = entrada.nextInt();
-        if(arrayUsuarios.buscarUsuario(identificadorUsuario)){
-            int identificadorLibro = buscarLibroPrestar();
-                if(!(libros[identificadorLibro].reservaUsuario == null) && (identificadorLibro != 0)){
-                    libros[identificadorLibro].reservaUsuario = null;
-                    System.out.println("SE DEVOLVIO EL LIBRO CORRECTAMENTE");
-                }else{
-                    System.out.println("EL LIBRO NO EXISTE");
-                }
-
-        }else{
-            System.out.println("NO SE ENCONTRO AL USUARIO");
-            return;
-        }
     }
 }

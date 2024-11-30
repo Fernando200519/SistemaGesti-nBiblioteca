@@ -8,20 +8,16 @@ public class Usuario {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private LocalDate fechaNacimiento;
-    private String genero;
     private String direccion;
-    private String telefono;
     private String correoElectronico;
 
-    public Usuario(int id, String nombres, String apellidoPaterno, String apellidoMaterno, LocalDate fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico) {
+    public Usuario(int id, String nombres, String apellidoPaterno, String apellidoMaterno, LocalDate fechaNacimiento, String direccion, String correoElectronico) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.fechaNacimiento = fechaNacimiento;
-        this.genero = genero;
         this.direccion = direccion;
-        this.telefono = telefono;
         this.correoElectronico = correoElectronico;
     }
 
@@ -33,11 +29,11 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombres() {
+    public String getNombre() {
         return nombres;
     }
 
-    public void setNombres(String nombres) {
+    public void setNombre(String nombres) {
         this.nombres = nombres;
     }
 
@@ -65,28 +61,12 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
     public String getDireccion() {
         return direccion;
     }
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
     }
 
     public String getCorreoElectronico() {
@@ -99,8 +79,8 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "\nId = " + id + "\nNombre = " + nombres + "\nApellidoPaterno = " + apellidoPaterno
-                + "\nApellidoMaterno = " + apellidoMaterno + "\nFechaNacimiento = " + fechaNacimiento + "\nGenero = " + genero
-                + "\nDireccion = " + direccion + "\nTelefono = " + telefono + "\nCorreoElectronico=" + correoElectronico;
+        return "\nID: " + id + "\nNombre: " + nombres + "\nApellidoPaterno: " + apellidoPaterno
+                + "\nApellidoMaterno: " + apellidoMaterno + "\nFechaNacimiento: " + fechaNacimiento
+                + "\nDireccion: " + direccion + "\nCorreoElectronico: " + correoElectronico;
     }
 }
