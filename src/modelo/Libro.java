@@ -8,6 +8,7 @@ public class Libro{
     private String autor;
     private String editorial;
     private LocalDate fechaPublicacion;
+    public Usuario reservaUsuario;
 
     public Libro(int id, String titulo, String autor, String editorial, String fechaPublicacion) {
         this.id = id;
@@ -15,6 +16,7 @@ public class Libro{
         this.autor = autor;
         this.editorial = editorial;
         this.fechaPublicacion = LocalDate.parse(fechaPublicacion);
+        this.reservaUsuario = null;
     }
 
     public int getId() {
@@ -55,6 +57,14 @@ public class Libro{
 
     public void setFechaPublicacion(LocalDate fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public Usuario getReservaUsuario(){
+        return reservaUsuario;
+    }
+
+    public void setReservaUsuario(Usuario usuario){
+        this.reservaUsuario = usuario;
     }
 
     @Override

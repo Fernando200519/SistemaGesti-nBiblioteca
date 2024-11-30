@@ -1,6 +1,5 @@
 package menu;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.Libro;
@@ -19,6 +18,8 @@ public class Main {
     static Libro libro3 = new Libro(3, "El principito", "Antoine de Saint-Exupery", "Reynal & Hitchcock", "1943-04-06");
     static Libro libro4 = new Libro(4, "Orgullo y prejuicio", "Jane Austen", "T. Egerton", "1813-01-28");
     static Libro libro5 = new Libro(5, "Don Quijote de la Mancha", "Miguel de Cervantes", "Francisco de Robles", "1605-01-16");
+
+    static Libro[] libros = {libro1, libro2, libro3, libro4, libro5};
     public static void main(String[] args){
         
         System.out.println("\nBIENVENIDO AL SISTEMA DE GESTION DE LA BIBLIOTECA");
@@ -47,8 +48,6 @@ public class Main {
                 }
                 break;
 
-
-
                 case 2:
                 if(!buscarLibro()){
                     System.out.println("NO SE ENCONTRO EL LIBRO");
@@ -56,24 +55,17 @@ public class Main {
                 entrada.nextLine();
                 break;
 
-
-
                 case 3:
                 prestarLibro();
                 break;
 
                 case 4:
-                break;
-
-                case 5:
+                devolverLibro();
                 break;
 
             }
+
         }while(opcion != 5);
-
-
-
-
 
         entrada.close();
         
@@ -105,12 +97,9 @@ public class Main {
     }
 
     public static boolean buscarLibro(){
-        System.out.print("\nIngrese el título libro a buscar: ");
+        System.out.print("\nIngrese el título del libro a buscar: ");
         entrada.nextLine();
         String busqueda = entrada.nextLine();
-
-        Libro[] libros = {libro1, libro2, libro3, libro4, libro5};
-
 
         for (int i = 0; i < libros.length; i++) {
             if (busqueda.equals(libros[i].getTitulo())) {
@@ -122,13 +111,57 @@ public class Main {
         return false;
     }
 
+    public static int buscarLibroPrestar(){
+        System.out.print("\nIngrese el título del libro: ");
+        entrada.nextLine();
+        String busqueda = entrada.nextLine();
+
+        for (int i = 0; i < libros.length; i++) {
+            if (busqueda.equals(libros[i].getTitulo())) {
+                int identificadorLibro = libros[i].getId();
+                return identificadorLibro;
+            }
+        }
+        return 0;
+    }
+
     public static void prestarLibro(){
-        System.out.print("Digite el ID del usuario: ");
-        int identificador = entrada.nextInt();
-        if(arrayUsuarios.buscarUsuario(identificador)){
-            System.out.println("\nENTRO");
+        System.out.print("Digite el ID del usuario que requiere el prestamo: ");
+        int identificadorUsuario = entrada.nextInt();
+        if(arrayUsuarios.buscarUsuario(identificadorUsuario)){
+            int identificadorLibro = buscarLibroPrestar();
+            if(!(identificadorLibro == 0) && (libros[identificadorLibro].reservaUsuario == null)){
+                libros[identificadorLibro].setReservaUsuario(arrayUsuarios.getUsuario(identificadorUsuario));
+                System.out.println("\nPRESTAMO EXITOSO");
+            }else{
+                if(!(libros[identificadorLibro].reservaUsuario == null)){
+                    System.out.println("EL LIBRO YA ESTA APARTADO");
+                }else{
+                    System.out.println("NO SE ENCONTRO EL LIBRO");
+                }
+            }
+
         }else{
             System.out.println("NO SE ENCONTRO AL USUARIO");
+            return;
+        }
+    }
+
+    public static void devolverLibro(){
+        System.out.print("Digite el ID del usuario que requiere delvolver el libro: ");
+        int identificadorUsuario = entrada.nextInt();
+        if(arrayUsuarios.buscarUsuario(identificadorUsuario)){
+            int identificadorLibro = buscarLibroPrestar();
+                if(!(libros[identificadorLibro].reservaUsuario == null) && (identificadorLibro != 0)){
+                    libros[identificadorLibro].reservaUsuario = null;
+                    System.out.println("SE DEVOLVIO EL LIBRO CORRECTAMENTE");
+                }else{
+                    System.out.println("EL LIBRO NO EXISTE");
+                }
+
+        }else{
+            System.out.println("NO SE ENCONTRO AL USUARIO");
+            return;
         }
     }
 }
