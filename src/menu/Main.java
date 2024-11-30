@@ -28,10 +28,11 @@ public class Main {
 
         do{
             System.out.println("\n1. Registrar usuario");
-            System.out.println("2. Buscar libro");
-            System.out.println("3. Prestar libro");
-            System.out.println("4. Devolver libro");
-            System.out.println("5. Salir");
+            System.out.println("2. Mostrar los usuarios registrados");
+            System.out.println("3. Mostrar los libros");
+            System.out.println("4. Prestar libro");
+            System.out.println("5. Devolver libro");
+            System.out.println("6. Salir");
             System.out.print("\nOpcion: ");
             opcion = entrada.nextInt();
 
@@ -41,25 +42,24 @@ public class Main {
                 registrarUsuario(idUsuario);
                 idUsuario++;
                 entrada.nextLine();
-                System.out.print("Desea la lista de los usuarios resgistrados(s/n): ");
-                char band = entrada.nextLine().charAt(0);
-                if(band == 's' || band == 'S'){
-                    arrayUsuarios.mostrarUsuarios();
-                }
                 break;
 
                 case 2:
-                if(!buscarLibro()){
-                    System.out.println("NO SE ENCONTRO EL LIBRO");
-                }
+                arrayUsuarios.mostrarUsuarios();
+                entrada.nextLine();
                 entrada.nextLine();
                 break;
 
                 case 3:
-                prestarLibro();
+                mostrarLibros();
+                entrada.nextLine();
                 break;
 
                 case 4:
+                prestarLibro();
+                break;
+
+                case 5:
                 devolverLibro();
                 break;
 
@@ -94,6 +94,14 @@ public class Main {
         correoElectronico = entrada.nextLine();
         Usuario usuario = new Usuario(idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, genero, direccion, telefono, correoElectronico);
         arrayUsuarios.addUsuario(usuario);
+    }
+
+    public static void mostrarLibros(){
+        System.out.println("\nLIBROS: ");
+        for(int i = 0; i < libros.length; i++){
+            System.out.println(libros[i].toString());
+        }
+        entrada.nextLine();
     }
 
     public static boolean buscarLibro(){

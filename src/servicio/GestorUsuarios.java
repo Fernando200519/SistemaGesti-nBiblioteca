@@ -17,8 +17,12 @@ public class GestorUsuarios {
     }
 
     public void mostrarUsuarios(){
-        for(int i = 0; i < usuarios.size(); i++){
-            System.out.println(usuarios.get(i).toString());
+        if(!(usuarios.isEmpty())){
+            for(int i = 0; i < usuarios.size(); i++){
+                System.out.println(usuarios.get(i).toString());
+            }
+        }else{
+            System.out.println("\nNO HAY USUARIOS REGISTRADOS");
         }
     }
 
